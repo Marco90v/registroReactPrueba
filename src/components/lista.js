@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from "react-redux";
+
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,10 +11,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 
-const useStyles = makeStyles({
-    table: { minWidth: 650 },
-    root: { flexGrow: 1, marginBottom: "1em" }
-});
+const useStyles = makeStyles({ table: { minWidth: 650 } });
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -20,22 +19,10 @@ const StyledTableCell = withStyles((theme) => ({
         color: theme.palette.common.white,
     }
 }))(TableCell);
-  
-function createData(ID, name, lastName, email, phone, birthdate) {
-    return { ID, name, lastName, email, phone, birthdate };
-}
-  
-const rows = [
-    createData(1,'Marco','Velasquez', 'correo@correo.com', '123.123.123', '01/01/2000'),
-    createData(2,'Marco','Velasquez', 'correo@correo.com', '123.123.123', '01/01/2000'),
-    createData(3,'Marco','Velasquez', 'correo@correo.com', '123.123.123', '01/01/2000'),
-    createData(4,'Marco','Velasquez', 'correo@correo.com', '123.123.123', '01/01/2000')
-];
 
-
-function Lista() {
+function Lista({usuarios}) {
+    usuarios = usuarios === undefined || usuarios === null ? [] : usuarios;
     const classes = useStyles();
-
     return(
         <TableContainer component={Paper}>
             <Table className={classes.table} size="small" aria-label="a dense table">
@@ -49,21 +36,29 @@ function Lista() {
                         <StyledTableCell align="center">Fecha de Nacimiento</StyledTableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                {rows.map((row) => (
-                    <TableRow key={row.ID}>
-                        <TableCell align="center">{row.ID}</TableCell>
-                        <TableCell align="center">{row.name}</TableCell>
-                        <TableCell align="center">{row.lastName}</TableCell>
-                        <TableCell align="center">{row.email}</TableCell>
-                        <TableCell align="center">{row.phone}</TableCell>
-                        <TableCell align="center">{row.birthdate}</TableCell>
-                    </TableRow>
-                ))}
+                <TableBody >
+                {
+                    usuarios.length ?
+                        usuarios.map((row, index) => (
+                            <TableRow key={row.ID}>
+                                <TableCell align="center">{row.ID}</TableCell>
+                                <TableCell align="center">{row.name}</TableCell>
+                                <TableCell align="center">{row.lastName}</TableCell>
+                                <TableCell align="center">{row.email}</TableCell>
+                                <TableCell align="center">{row.phone}</TableCell>
+                                <TableCell align="center">{row.birthday}</TableCell>
+                            </TableRow>
+                        ))
+                    : <TableRow><TableCell colSpan={6} align="center" >Sin registros</TableCell></TableRow>
+                }
                 </TableBody>
             </Table>
         </TableContainer>
     );
 }
 
-export default Lista;
+const mapStateToProps = state =>({ usuarios: state.datos })
+
+const mapDispatchToProps = dispatch => ({})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Lista)
