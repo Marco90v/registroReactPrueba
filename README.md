@@ -1,3 +1,13 @@
+# Registro
+
+Pequeño ejercicio para aprender React.
+
+La App cuenta con dos vistas, Lista y Nuevo, en la vista de lista se muestra los registros agregados y en la vista nuevo se muestra un formulario con los campos a agregar.
+los datos son almacenados en localStorage, para la creación de la app se usa react-router-dom, react-redux y material-ui
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
